@@ -1,6 +1,9 @@
 {
   "name": "marvel",
   "version": "0.1.0",
+  "engines": {
+    "node": "18.12.1"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -37,6 +40,6 @@
     ]
   },
   "devDependencies": {
-    "sass": "^1.38.0"
+    "sass": "^1.59.3"
   }
 }
