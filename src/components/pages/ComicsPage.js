@@ -1,12 +1,13 @@
+import { Outlet, useOutlet } from "react-router-dom";
 import ComicsList from "../comicsList/ComicsList";
 import AppBaner from "../appBanner/AppBanner";
 
 const ComicsPage = () => {
+    const outLet = useOutlet();
 
     return (
         <>
-            <AppBaner/>
-            <ComicsList/>
+            { outLet ? <><AppBaner/><Outlet/></> : <ComicsList/>}
         </>
     )
 }
