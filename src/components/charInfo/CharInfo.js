@@ -4,6 +4,7 @@ import useMarvelService from "../../services/MarvelService";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Spinner from "../spinner/Spinner";
 import Skeleton from "../skeleton/Skeleton";
+import { Link } from "react-router-dom";
 
 import "./charInfo.scss";
 
@@ -73,9 +74,12 @@ const View = ({ char }) => {
       {comics.length > 0 ? null : 'There is no comics with this character' }
       <ul className="char__comics-list">
         {
+            
             comics.slice(0, 10).map((item, i) => (
                 <li key={i} className="char__comics-item">
-                  {item.name}
+                  {/* <Link to={`/comics/${item.id}`}> */}
+                    {item.name}
+                  {/* </Link> */}
                 </li>
               ))
         } 
