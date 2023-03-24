@@ -5,16 +5,32 @@ import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
+const setContent = (proccess, Component, loadingMore  ) => {
+    switch (proccess){
+      case 'waiting':
+        return <Spinner />; 
+      case 'loading':
+        return loadingMore ? <Component/> : <Spinner />;
+      case 'confirmed':
+          return <Component/>;
+      case 'error':
+        return <ErrorMessage />;
+      default:
+        throw new Error('Unexpected proccess state.');
+    }
+}
+
 const CharList = (props) => {
     const [chars, setChars] = useState([]);
     const [loadingMore, setLoadingMore] = useState(false);
     const [offset, setOffset] = useState(210);
     const [charsDataEnded, setCharsDataEnded] = useState(false);
 
-    const { loading, error, getAllCharacters } = useMarvelService();
+    const { getAllCharacters, proccess, setProccess } = useMarvelService();
 
     useEffect(() => {
         onRequest(offset, true);
+        console.log(223);
     }, [])
 
     const onRequest = (offset, inicial) => {
@@ -23,7 +39,8 @@ const CharList = (props) => {
         getAllCharacters(offset)
             .then(res => {
                 onCharsListLoaded(res);
-            });
+            })
+            .then(() => setProccess('confirmed'));
     }
 
     const onCharsListLoaded = (newCharsList) => {
@@ -82,19 +99,12 @@ const CharList = (props) => {
         )
     }
     
-
-
-    const spinner = loading && !loadingMore ? <Spinner/> : null;
-    const errorMessage = error ? <ErrorMessage /> : null;  
-    const items = renderItems(chars);
     const buttonStyle = charsDataEnded ? { 'display': 'none' } : null;
 
     return (
         <div className="char__list">
 
-            {spinner}
-            {errorMessage}
-            {items}
+            {setContent( proccess, () => renderItems(chars), loadingMore )}
             
             <button style={buttonStyle} className="button button__main button__long"
                 disabled={loadingMore}
